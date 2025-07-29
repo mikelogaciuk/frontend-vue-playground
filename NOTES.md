@@ -320,3 +320,11 @@ const props = defineProps(['sales', 'revenue', 'profit'])
 
 <style></style>
 ```
+
+## Note
+
+Sources:
+
+- [Vue.js Documentation](https://vuejs.org/guide/introduction.html)
+- [Vue.js Complete Course ( 2025 )](https://youtu.be/ymXJlPeM-qI?si=1jN6uMnxS2Ttyfj0)
+- [Build any layout with Tailwind | Crash Course](https://youtu.be/rbSPe1tJowY?si=mKFUaJmQHuLj5Ho_)
