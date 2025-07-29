@@ -122,6 +122,23 @@ const age = ref(18)
 
 It is widely used for single values like numbers, strings, and booleans. It can also be used to create reactive references to DOM elements.
 
+### Ref vs Reactive pitfalls
+
+In Vue 3, both `ref()` and `reactive()` are used for reactivity, but they have different **use** cases:
+
+`ref()` as already mentioned is typically used for primitive values (like numbers, strings, booleans), but it can also wrap objects and arrays.
+
+When you use `ref()` with an object or array, you access the value via .value. This is often suggested because `ref()` works consistently in both the `<script setup></script>` and `<template></template>`, and is easier to destructure without losing reactivity.
+
+The `reactive()` is designed for objects and arrays, making all their properties reactive. However, destructuring a reactive object can break reactivity, which can lead to bugs if not handled carefully.
+
+This is why, for example CoPilot suggests `ref()` for objects/arrays all the time.
+
+In short:
+
+- ref() is more predictable when passing objects/arrays as props or emitting them in events.
+- ref() is compatible with Vue’s Composition API patterns and works well with TypeScript.
+
 ## Computed Properties
 
 Computed properties are a powerful feature in Vue that allow you to define properties that depend on other reactive properties. They are automatically updated when their dependencies change.
@@ -240,9 +257,66 @@ const props = defineProps(['name'])
 
 ### Dynamic props
 
-Dynamic props allow you to pass data to a component using the `v-bind` directive or the shorthand `:`. This is useful when you want to bind a variable or an expression to
-a prop.
+Dynamic props allow you to pass data to a component using the `v-bind` directive or the shorthand `:`. This is useful when you want to bind a variable or an expression to a prop.
 
+`DynamicPropsLoaderComponent.vue`:
+
+```vue
+<template>
+  <div>
+    <DynamicPropsComponent :sales="sales" :revenue="revenue" :profit="profit" />
+  </div>
+</template>
+
+<script setup>
+import DynamicPropsComponent from './DynamicPropsComponent.vue'
+import { ref } from 'vue'
+const sales = ref(366666.99)
+const revenue = ref(500000.0)
+const profit = ref(133333.01)
+</script>
+
+<style></style>
 ```
 
+`DynamicPropsComponent.vue`:
+
+```vue
+<template>
+  <div>
+    <br />
+    <p>
+      This is a dynamic props component.
+      <br />
+      It receives the following stats:
+    </p>
+    <br />
+    <div class="d-stats bg-base-100 border-base-200 rounded-xs border">
+      <div class="d-stat">
+        <div class="d-stat-title">Sales</div>
+        <div class="d-stat-value">
+          {{ props.sales.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}
+        </div>
+      </div>
+      <div class="d-stat text-secondary">
+        <div class="d-stat-title">Revenue</div>
+        <div class="d-stat-value">
+          {{ props.revenue.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}
+        </div>
+      </div>
+      <div class="d-stat">
+        <div class="d-stat-title">Profit</div>
+        <div class="d-stat-value">
+          {{ props.profit.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+const props = defineProps(['sales', 'revenue', 'profit'])
+</script>
+
+<style></style>
 ```

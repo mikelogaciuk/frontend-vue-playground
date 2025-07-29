@@ -8,6 +8,17 @@ Crafted for `Vue learning` and `front-end re-learning` purposes.
 
 The documentation is avaiable [here](./NOTES.md)
 
+## Usage
+
+For laughing purposes, you can run and watch it:
+
+```shell
+git clone https://github.com/mikelogaciuk/frontend-vue-playground.git
+cd frontend-vue-playground
+npm i
+npm run dev
+```
+
 ## Note
 
 🧵When last time I wrote front-end code? Around 2005.

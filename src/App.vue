@@ -4,6 +4,8 @@ import AttributeBindingComponent from './components/AttributeBindingComponent.vu
 import ReactiveObjectsComponent from './components/ReactiveObjectsComponent.vue';
 import ConditionalRenderingComponent from './components/ConditionalRenderingComponent.vue'
 import StaticPropsComponent from './components/StaticPropsComponent.vue';
+import DynamicPropsLoaderComponent from './components/DynamicPropsLoaderComponent.vue';
+
 </script>
 
 <template>
@@ -12,6 +14,7 @@ import StaticPropsComponent from './components/StaticPropsComponent.vue';
   <ReactiveObjectsComponent />
   <ConditionalRenderingComponent />
   <StaticPropsComponent name="John Doe" />
+  <DynamicPropsLoaderComponent />
 </template>
 
 <style></style>
