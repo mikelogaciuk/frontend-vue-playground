@@ -38,9 +38,10 @@ const randomizeName = () => {
     <br />To make my computed fullname as: <b>{{ fullName }}</b>.
     <br /> <br />
     The garbage below was done for <b>Vue learning purposes</b>. <br />
-    Since last time I wrote front-end, 20 years passed. In that moment there was even no Node.js.
+    Since last time I wrote front-end, 20 or more years passed. In that moment there was even no Node.js.
     <br />
-    Everything was done using .Php or vanilla JavaScript and Ruby and Rails was initial getting attention.
+    Everything was done using Php inside .php files and the Ruby and Rails
+    was not even a thing. No one dreamed about Vue.js, React.js, Angular.js or any other thing like that.
   </p>
 
   <br />
