@@ -13,6 +13,7 @@ import WatcherComponent from './components/WatcherComponent.vue';
 import TemplateRefComponent from './components/TemplateRefComponent.vue';
 import DataFetchComponent from './components/DataFetchComponent.vue';
 import EventParentComponent from './components/EventParentComponent.vue';
+import LayoutComponent from './components/LayoutComponent.vue';
 </script>
 
 <template>
@@ -42,6 +43,7 @@ import EventParentComponent from './components/EventParentComponent.vue';
   <TemplateRefComponent />
   <DataFetchComponent />
   <EventParentComponent />
+  <LayoutComponent />
 </template>
 
 <style></style>

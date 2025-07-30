@@ -693,6 +693,139 @@ function handleCustomEvent(message) {
 
 Once clicked, the button in the child component will emit a custom event named `customEvent`, which the parent component listens for. When the event is triggered, the parent component's `handleCustomEvent` method is called, displaying an alert with the message passed from the child.
 
+## Layouts
+
+### Grid
+
+Vue.js allows you to create complex layouts using components and CSS frameworks like Tailwind CSS. You can use utility classes to style your components and create responsive designs.
+
+The easiest way for more backend oriented `Software Writers` or `Developers` is to use the `grid` at first and then use the `flex` for more complex layouts.
+
+The `grid` is a powerful layout system that allows you to create complex layouts with rows and columns. You can define the number of columns, their sizes, and how they should behave on different screen sizes.
+
+The core concepts of the `grid` is to think about it as a container that can be always divided by 2. In other words: if you want to create a layout of 3 columns, small, medium, and large, you can use the `grid-cols-12` class and then use the `col-span` classes to define how many columns each element should span. The same applies to rows. For example:
+
+- `col-span-2` for a small column
+- `col-span-4` for a medium column
+- `col-span-6` for a large column
+
+Another hot trick is to use `sm:grid` to define the grid for small screens, rest will be handled by the `grid` classes automatically.
+
+For example:
+
+```html
+<div class="grid sm:grid-cols-2 m-4 gap-4">
+  <div class="min-h-[100px] rounded-lg bg-pink-300"></div>
+  <div class="min-h-[100px] rounded-lg bg-blue-300"></div>
+</div>
+<div class="grid sm:grid-cols-12 m-4 gap-4">
+  <div class="min-h-[100px] rounded-lg bg-violet-200 col-span-2"></div>
+  <div class="min-h-[100px] rounded-lg bg-blue-400 col-span-10"></div>
+</div>
+<div class="grid sm:grid-cols-12 m-4 gap-4">
+  <div class="min-h-[100px] rounded-lg bg-red-200 col-span-8">
+    <div class="min-h-[50px] bg-amber-200"></div>
+    <div class="min-h-[50px] bg-orange-300"></div>
+  </div>
+  <div class="min-h-[100px] rounded-lg bg-green-200 col-span-4"></div>
+</div>
+<div class="grid sm:grid-cols-12 m-4 gap-4">
+  <div class="min-h-[200px] col-span-4 bg-red-200">
+    <div class="min-h-[100px] bg-amber-200"></div>
+    <div class="min-h-[100px] bg-orange-300"></div>
+    <div class="min-h-[100px] bg-yellow-400"></div>
+  </div>
+  <div class="min-h-[200px] col-span-8 bg-green-200">
+    <div class="grid grid-cols-3 h-full">
+      <div class="bg-blue-200"></div>
+      <div class="bg-purple-300"></div>
+      <div class="bg-pink-400"></div>
+    </div>
+  </div>
+</div>
+```
+
+### Flexbox
+
+Flexbox is another powerful layout system that allows you to create flexible and responsive layouts. It is based on the concept of a flex container and flex items. The flex container is the parent element, and the flex items are the child elements.
+
+The grid code below:
+
+```html
+<div class="grid sm:grid-cols-12 m-4 gap-4">
+  <div class="min-h-[100px] rounded-lg bg-violet-200 col-span-2"></div>
+  <div class="min-h-[100px] rounded-lg bg-blue-400 col-span-10"></div>
+</div>
+```
+
+Can be easily converted to a flexbox layout like this:
+
+```html
+<div class="flex m-4 gap-4">
+  <div class="min-h-[100px] rounded-lg bg-pink-300 flex-[2]"></div>
+  <div class="min-h-[100px] rounded-lg bg-blue-300 flex-[10]"></div>
+</div>
+```
+
+Or this:
+
+```html
+<div class="flex m-4 gap-4">
+  <div class="min-h-[100px] rounded-lg bg-slate-400 w-1/6"></div>
+  <div class="min-h-[100px] rounded-lg bg-blue-300 w-5/6"></div>
+</div>
+```
+
+This part was about re-learning me the core laws of layout design.
+
+## Lifecycle Hooks
+
+Lifecycle Hooks in Vue are special functions that allow you to run code at specific points in a component's lifecycle. They are useful for performing setup tasks, cleaning up resources, or reacting to changes in the component.
+
+### Common Lifecycle Hooks
+
+- `onMounted`: Called after the component is mounted to the DOM. This is a good place to perform initial data fetching or setup.
+- `onUpdated`: Called after the component's reactive data has changed and the DOM has been updated. This is useful for reacting to changes in the component's data.
+- `onUnmounted`: Called before the component is unmounted from the DOM. This is a good place to clean up resources, such as event listeners or timers.
+- `onBeforeMount`: Called right before the component is mounted. This is useful for performing setup tasks that need to be done before the component is rendered.
+- `onBeforeUpdate`: Called right before the component's reactive data changes and the DOM is updated. This is useful for performing tasks that need to be done before the component is re-rendered.
+- `onBeforeUnmount`: Called right before the component is unmounted. This is useful for performing cleanup tasks that need to be done before the component is removed from the DOM.
+- `onErrorCaptured`: Called when an error is thrown in a child component. This is useful for handling errors and preventing them from propagating to the parent component.
+- `onActivated`: Called when a component is activated in a keep-alive component. This is useful for performing tasks when a component is reactivated.
+- `onDeactivated`: Called when a component is deactivated in a keep-alive component. This is useful for performing tasks when a component is deactivated.
+
+## Vue Router
+
+Vue Router is the official router for Vue.js. It allows you to create single-page applications (SPAs) with navigation between different views or components.
+
+It provides a way to define routes, navigate between them, and manage the state of the application.
+
+### Basic Usage
+
+To use Vue Router, you need to install it and configure it in your Vue application. You can define routes and map them to components.
+
+```bash
+npm install vue-router
+```
+
+Then, you can create a router instance and define your routes:
+
+```javascript
+import { createRouter, createWebHistory } from 'vue-router'
+
+const routes = [
+  { path: '/', component: Home },
+  { path: '/about', component: About },
+]
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes,
+})
+
+export default router
+```
+
 ## Note
 
 Sources:
