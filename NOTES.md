@@ -321,6 +321,378 @@ const props = defineProps(['sales', 'revenue', 'profit'])
 <style></style>
 ```
 
+**Please note** that the `props` are immutable by default, meaning you cannot change their values directly within the child component. If you need to modify the data, you should emit an event to the parent component to handle the change.
+
+## Slots
+
+Slots are a way to create reusable components with customizable content. They allow you to define placeholders in a component's template that can be filled with content from the parent component.
+
+In other terms, they are a space in a component where you can put various different things.
+
+It allows to accept different content while maintaining the structure of the component.
+
+`SlotComponent.vue`:
+
+```vue
+<template>
+  <slot>
+    <!-- Default slot content if no content is passed -->
+    <br />
+    <div class="default-slot-content">Default slot content goes here:</div>
+  </slot>
+</template>
+
+<script setup></script>
+
+<style></style>
+```
+
+`App.vue`:
+
+```vue
+<script setup>
+import SlotComponent from './components/SlotComponent.vue'
+</script>
+
+<template>
+  <SlotComponent>
+    <p>This is content passed to the slot.</p>
+  </SlotComponent>
+</template>
+
+<style></style>
+```
+
+## Fallback Defaults
+
+You can also provide fallback content for slots. If no content is passed to the slot, the fallback content will be displayed.
+
+It is good for example for a dashboard components that would display a message like "No data available" if no data is passed to it or loading spinner if data is being fetched.
+
+`FallbackDefaultComponent.vue`:
+
+```vue
+<template>
+  <br />
+  <slot>
+    <h1>Default Fallback Content</h1>
+  </slot>
+</template>
+
+<script setup></script>
+
+<style></style>
+```
+
+`App.vue`:
+
+```vue
+<script setup>
+import FallbackDefaultComponent from './components/FallbackDefaultComponent.vue'
+</script>
+
+<template>
+  <FallbackDefaultComponent> </FallbackDefaultComponent>
+  <FallbackDefaultComponent>
+    <h1>Custom Fallback Content using Fallback Component</h1>
+  </FallbackDefaultComponent>
+</template>
+
+<style></style>
+```
+
+## Named Slots
+
+Named slots allow you to define multiple slots within a single component, each with a unique name. This is useful when you want to provide different content for different parts of the component.
+
+`NamedSlotComponent.vue`:
+
+```vue
+<template>
+  <br />
+  <slot name="upper"></slot>
+  <slot></slot>
+  <slot name="lower"></slot>
+</template>
+
+<script setup></script>
+
+<style></style>
+```
+
+`App.vue`:
+
+```vue
+<script setup>
+import NamedSlotComponent from './components/NamedSlotComponent.vue'
+</script>
+
+<template>
+  <NamedSlotComponent>
+    <template #upper>
+      <h1>Upper Slot Content</h1>
+    </template>
+    <template #lower>
+      <h2>Lower Slot Content</h2>
+    </template>
+  </NamedSlotComponent>
+</template>
+
+<style></style>
+```
+
+## Provide & Inject
+
+Provide and inject are used to pass data from a parent component to deeply nested child components without having to pass props through every level of the component hierarchy.
+
+### Provide
+
+The `provide` option allows a parent component to provide data that can be injected by its descendants.
+
+### Inject
+
+The `inject` option allows a child component to access data provided by its ancestor components.
+
+### Provide and Inject Example
+
+`ProvideAndInjectComponent.vue`:
+
+```vue
+<template>
+  <ProvideAndInjectLoaderComponent />
+</template>
+
+<script setup>
+import ProvideAndInjectLoaderComponent from './ProvideAndInjectLoaderComponent.vue'
+import { provide } from 'vue'
+
+provide('type', 'Airliner')
+provide('model', 'MD-11')
+provide('manufacturer', 'McDonnell Douglas')
+</script>
+```
+
+`ProvideAndInjectLoaderComponent.vue`:
+
+```vue
+<template>
+  <ProvideAndInjectFinalComponent />
+</template>
+
+<script setup>
+import ProvideAndInjectFinalComponent from './ProvideAndInjectFinalComponent.vue'
+</script>
+
+<style></style>
+```
+
+`ProvideAndInjectFinalComponent.vue`:
+
+```vue
+<template>
+  <div>
+    <br />
+    <h2>Provide and Inject Final Component:</h2>
+    <table class="d-table">
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Model</th>
+          <th>Manufacturer</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{ type }}</td>
+          <td>{{ model }}</td>
+          <td>{{ manufacturer }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <br />
+    <p>This component uses the values provided by the parent component.</p>
+  </div>
+</template>
+
+<script setup>
+import { inject } from 'vue'
+
+const type = inject('type')
+const model = inject('model')
+const manufacturer = inject('manufacturer')
+</script>
+
+<style></style>
+```
+
+## Watchers
+
+Watchers are used to perform side effects in response to changes in reactive data. They allow you to execute code when a specific piece of data changes.
+
+The watchers syntax is as follows: `watch(source, callback, options)`.
+
+The `source` can be a reactive reference, a computed property, or an array of reactive references. The `callback` is a function that will be called when the source changes, and the `options` object can be used to configure the watcher like `immediate` and `deep` or `flush` and `onTrack/onTrigger`.
+
+Example:
+
+```vue
+<template>
+  <div>
+    <br />
+    <fieldset class="d-fieldset bg-base-300 border-base-300 rounded-box w-xs p-4">
+      <br />
+      <h1 class="text-2xl">{{ message }}</h1>
+      <br />
+      <br />
+      <input
+        v-model="inputValue"
+        class="d-input-accent border-accent"
+        placeholder="Type something..."
+      />
+    </fieldset>
+  </div>
+</template>
+
+<script setup>
+import { ref, watch } from 'vue'
+
+const message = ref('Hi!')
+const inputValue = ref('')
+
+watch(inputValue, (newValue, oldValue) => {
+  message.value = `You typed: ${newValue}`
+})
+</script>
+
+<style></style>
+```
+
+## Template Refs
+
+This is a way to create a reference to a DOM element or a component instance in the template. It allows you to access the element or component directly in the script.
+
+Example:
+
+```vue
+<template>
+  <div>
+    <br />
+    <br />
+    <input type="text" ref="myRef" placeholder="Type something" />
+  </div>
+</template>
+
+<script setup>
+import { onMounted, ref } from 'vue'
+
+const myRef = ref('')
+
+onMounted(() => {
+  // Component is mounted
+  console.log(myRef.value)
+  // You can access the DOM element or perform any setup logic here
+  myRef.value.focus()
+  myRef.value.value = 'Hello, World!'
+})
+</script>
+
+<style></style>
+```
+
+## Fetching Data
+
+Fetching data in Vue can be done using the `fetch` API or any other HTTP client like Axios. You can use the `onMounted` lifecycle hook to fetch data when the component is mounted:
+
+```vue
+<template>
+  <div>
+    <br />
+    <br />
+    <button class="d-btn d-btn-success" @click="fetchData">Fetch Data</button>
+    <div v-if="data">
+      <h2>Fetched Data:</h2>
+      <pre>{{ data }}</pre>
+    </div>
+    <div v-else>
+      <p>No data fetched yet.</p>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+const data = ref(null)
+
+const fetchData = () => {
+  fetch('https://jsonplaceholder.typicode.com/posts/1')
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok')
+      }
+      return response.json()
+    })
+    .then((responseData) => {
+      data.value = responseData
+    })
+    .catch((error) => {
+      console.error('There has been a problem with your fetch operation:', error)
+    })
+}
+</script>
+
+<style></style>
+```
+
+## Events
+
+Events in Vue are used to handle user interactions and trigger actions in the component. You can use the `v-on` directive or the shorthand `@` to listen for events.
+
+`EventChildComponent.vue`:
+
+```vue
+<template>
+  <div>
+    <br />
+
+    <button class="d-btn d-btn-error" @click="notifyParent">Click Me</button>
+  </div>
+</template>
+
+<script setup>
+const emit = defineEmits(['customEvent'])
+
+function notifyParent() {
+  emit('customEvent', 'Hello from child!')
+}
+</script>
+
+<style></style>
+```
+
+`EventParentComponent.vue`:
+
+```vue
+<template>
+  <div>
+    <EventChildComponent @customEvent="handleCustomEvent" />
+  </div>
+</template>
+
+<script setup>
+import EventChildComponent from './EventChildComponent.vue'
+
+function handleCustomEvent(message) {
+  console.log('Received:', message)
+  alert(message) // Shows: Hello from child!
+}
+</script>
+
+<style></style>
+```
+
+Once clicked, the button in the child component will emit a custom event named `customEvent`, which the parent component listens for. When the event is triggered, the parent component's `handleCustomEvent` method is called, displaying an alert with the message passed from the child.
+
 ## Note
 
 Sources:

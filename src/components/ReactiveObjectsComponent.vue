@@ -1,15 +1,21 @@
 <script setup>
 import { computed, reactive, ref } from 'vue';
 
-const state = reactive({
-  age: { value: 18 },
+const ageState = reactive({
+  age: { value: 18 }
+})
+
+const skillsState = reactive({
   skills: ['DevOps', 'DataOps', 'SREOps', 'Architecture', 'Backend', 'POS', 'ERP', 'Data Engineering'],
+})
+
+const state = reactive({
   languages: ['Python', 'Ruby', 'Elixir', 'Javascript', 'Typescript', 'Go']
 })
 
 const addSkill = () => {
-  if (state.skills.includes('Vue.js')) return;
-  state.skills.push('Vue.js');
+  if (skillsState.skills.includes('Vue.js')) return;
+  skillsState.skills.push('Vue.js');
 }
 
 const randomLanguage = () => {
@@ -33,7 +39,7 @@ const randomizeName = () => {
 
 <template>
 
-  <p>My name is <b>{{ name }}</b> and I am <b>{{ state.age.value }}</b> years old (joking), but you can randomize my
+  <p>My name is <b>{{ name }}</b> and I am <b>{{ ageState.age.value }}</b> years old (joking), but you can randomize my
     name using <button class="d-btn d-btn-soft d-btn-info rounded-3xl" @click="randomizeName">this</button>.
     <br />To make my computed fullname as: <b>{{ fullName }}</b>.
     <br /> <br />
@@ -46,16 +52,17 @@ const randomizeName = () => {
 
   <br />
   <h1>You can increase or decrease my age:</h1>
-  <button class="d-btn d-btn-info" @click="state.age.value++">Increase age</button>
-  <button class="d-btn d-btn-error" @click="state.age.value--">Decrease age</button>
+  <button class="d-btn d-btn-info" @click="ageState.age.value++">Increase age</button>
+  <button class="d-btn d-btn-error" @click="ageState.age.value--">Decrease age</button>
 
   <br /> <br />
 
-  <p>Skills: {{ state.skills.join(', ') }}</p>
+  <p>Skills: {{ skillsState.skills.join(', ') }}</p>
   <button class="d-btn d-btn-accent" @click="addSkill">Add new skill...
     (ha!)</button>
 
-  <p>The one of my favorite languages is <b>{{ randomLanguage() }}</b>.</p>
+  <p>The one of my favorite languages is <b>{{ randomLanguage() }}</b> and this will change also when you click age
+    increase or decrease, because of <i>randomLanguage()</i> function that is invoked everytime the DOM reloads.</p>
 </template>
 
 <style></style>

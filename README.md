@@ -6,7 +6,7 @@ Crafted for `Vue learning` and `front-end re-learning` purposes.
 
 ## Documentation
 
-The documentation is avaiable [here](./NOTES.md)
+The documentation is avaiable [here](./NOTES.md).
 
 ## Usage
 
