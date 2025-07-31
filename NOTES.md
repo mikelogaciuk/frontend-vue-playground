@@ -1,5 +1,39 @@
 # Vue Notes
 
+- [Vue Notes](#vue-notes)
+  - [Components](#components)
+  - [Text Interpolation](#text-interpolation)
+  - [Reactivity](#reactivity)
+    - [Reactive](#reactive)
+    - [Ref](#ref)
+    - [Ref vs Reactive pitfalls](#ref-vs-reactive-pitfalls)
+  - [Computed Properties](#computed-properties)
+  - [Conditional Rendering](#conditional-rendering)
+    - [List Rendering](#list-rendering)
+  - [Propeties](#propeties)
+    - [Static props](#static-props)
+    - [Dynamic props](#dynamic-props)
+  - [Slots](#slots)
+  - [Fallback Defaults](#fallback-defaults)
+  - [Named Slots](#named-slots)
+  - [Provide \& Inject](#provide--inject)
+    - [Provide](#provide)
+    - [Inject](#inject)
+    - [Provide and Inject Example](#provide-and-inject-example)
+  - [Watchers](#watchers)
+  - [Template Refs](#template-refs)
+  - [Fetching Data](#fetching-data)
+  - [Events](#events)
+  - [Lifecycle Hooks](#lifecycle-hooks)
+    - [Common Lifecycle Hooks](#common-lifecycle-hooks)
+  - [Vue Router](#vue-router)
+    - [Basic Usage](#basic-usage)
+  - [Layouts](#layouts)
+    - [Grid](#grid)
+    - [Flexbox](#flexbox)
+    - [Full-page / view-port scroll](#full-page--view-port-scroll)
+  - [Note](#note)
+
 ## Components
 
 A component is a reusable piece of code that encapsulates its own structure, style, and behavior. Components can be nested, reused, and managed independently.
@@ -693,6 +727,54 @@ function handleCustomEvent(message) {
 
 Once clicked, the button in the child component will emit a custom event named `customEvent`, which the parent component listens for. When the event is triggered, the parent component's `handleCustomEvent` method is called, displaying an alert with the message passed from the child.
 
+## Lifecycle Hooks
+
+Lifecycle Hooks in Vue are special functions that allow you to run code at specific points in a component's lifecycle. They are useful for performing setup tasks, cleaning up resources, or reacting to changes in the component.
+
+### Common Lifecycle Hooks
+
+- `onMounted`: Called after the component is mounted to the DOM. This is a good place to perform initial data fetching or setup.
+- `onUpdated`: Called after the component's reactive data has changed and the DOM has been updated. This is useful for reacting to changes in the component's data.
+- `onUnmounted`: Called before the component is unmounted from the DOM. This is a good place to clean up resources, such as event listeners or timers.
+- `onBeforeMount`: Called right before the component is mounted. This is useful for performing setup tasks that need to be done before the component is rendered.
+- `onBeforeUpdate`: Called right before the component's reactive data changes and the DOM is updated. This is useful for performing tasks that need to be done before the component is re-rendered.
+- `onBeforeUnmount`: Called right before the component is unmounted. This is useful for performing cleanup tasks that need to be done before the component is removed from the DOM.
+- `onErrorCaptured`: Called when an error is thrown in a child component. This is useful for handling errors and preventing them from propagating to the parent component.
+- `onActivated`: Called when a component is activated in a keep-alive component. This is useful for performing tasks when a component is reactivated.
+- `onDeactivated`: Called when a component is deactivated in a keep-alive component. This is useful for performing tasks when a component is deactivated.
+
+## Vue Router
+
+Vue Router is the official router for Vue.js. It allows you to create single-page applications (SPAs) with navigation between different views or components.
+
+It provides a way to define routes, navigate between them, and manage the state of the application.
+
+### Basic Usage
+
+To use Vue Router, you need to install it and configure it in your Vue application. You can define routes and map them to components.
+
+```bash
+npm install vue-router
+```
+
+Then, you can create a router instance and define your routes:
+
+```javascript
+import { createRouter, createWebHistory } from 'vue-router'
+
+const routes = [
+  { path: '/', component: Home },
+  { path: '/about', component: About },
+]
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes,
+})
+
+export default router
+```
+
 ## Layouts
 
 ### Grid
@@ -776,55 +858,41 @@ Or this:
 </div>
 ```
 
+### Full-page / view-port scroll
+
+In order to get for example 3 full-page sections that can be scrolled to, you can use the `snap` classes from Tailwind CSS. The `snap-y` class allows you to create a vertical snap scrolling effect, while the `snap-mandatory` class ensures that the scroll will snap to the nearest section.:
+
+```html
+<div class="h-screen snap-y snap-mandatory overflow-y-scroll scroll-smooth">
+  <div class="h-screen flex items-center justify-center bg-base-200 snap-start">
+    <br />
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam reprehenderit dolorum
+      architecto atque consectetur quod porro maxime tenetur esse ipsum quisquam, maiores nobis
+      temporibus sint modi ut inventore perferendis a quis deleniti quam eius rerum. Ullam,
+      necessitatibus.
+    </p>
+  </div>
+  <div class="h-screen flex items-center justify-center bg-slate-300 snap-start">
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam reprehenderit dolorum
+      architecto atque consectetur quod porro maxime tenetur esse ipsum quisquam, maiores nobis
+      temporibus sint modi ut inventore perferendis a quis deleniti quam eius rerum. Ullam,
+      necessitatibus.
+    </p>
+  </div>
+  <div class="h-screen flex items-center justify-center bg-base-400 snap-start">
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam reprehenderit dolorum
+      architecto atque consectetur quod porro maxime tenetur esse ipsum quisquam, maiores nobis
+      temporibus sint modi ut inventore perferendis a quis deleniti quam eius rerum. Ullam,
+      necessitatibus.
+    </p>
+  </div>
+</div>
+```
+
 This part was about re-learning me the core laws of layout design.
-
-## Lifecycle Hooks
-
-Lifecycle Hooks in Vue are special functions that allow you to run code at specific points in a component's lifecycle. They are useful for performing setup tasks, cleaning up resources, or reacting to changes in the component.
-
-### Common Lifecycle Hooks
-
-- `onMounted`: Called after the component is mounted to the DOM. This is a good place to perform initial data fetching or setup.
-- `onUpdated`: Called after the component's reactive data has changed and the DOM has been updated. This is useful for reacting to changes in the component's data.
-- `onUnmounted`: Called before the component is unmounted from the DOM. This is a good place to clean up resources, such as event listeners or timers.
-- `onBeforeMount`: Called right before the component is mounted. This is useful for performing setup tasks that need to be done before the component is rendered.
-- `onBeforeUpdate`: Called right before the component's reactive data changes and the DOM is updated. This is useful for performing tasks that need to be done before the component is re-rendered.
-- `onBeforeUnmount`: Called right before the component is unmounted. This is useful for performing cleanup tasks that need to be done before the component is removed from the DOM.
-- `onErrorCaptured`: Called when an error is thrown in a child component. This is useful for handling errors and preventing them from propagating to the parent component.
-- `onActivated`: Called when a component is activated in a keep-alive component. This is useful for performing tasks when a component is reactivated.
-- `onDeactivated`: Called when a component is deactivated in a keep-alive component. This is useful for performing tasks when a component is deactivated.
-
-## Vue Router
-
-Vue Router is the official router for Vue.js. It allows you to create single-page applications (SPAs) with navigation between different views or components.
-
-It provides a way to define routes, navigate between them, and manage the state of the application.
-
-### Basic Usage
-
-To use Vue Router, you need to install it and configure it in your Vue application. You can define routes and map them to components.
-
-```bash
-npm install vue-router
-```
-
-Then, you can create a router instance and define your routes:
-
-```javascript
-import { createRouter, createWebHistory } from 'vue-router'
-
-const routes = [
-  { path: '/', component: Home },
-  { path: '/about', component: About },
-]
-
-const router = createRouter({
-  history: createWebHistory(),
-  routes,
-})
-
-export default router
-```
 
 ## Note
 
