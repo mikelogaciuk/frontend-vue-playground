@@ -1,40 +1,255 @@
-# Vue Notes
+# Frontend/Vue Notes
 
-- [Vue Notes](#vue-notes)
-  - [Components](#components)
+## Table of Contents
+
+- [Frontend/Vue Notes](#frontendvue-notes)
+  - [Table of Contents](#table-of-contents)
+  - [About](#about)
+  - [Front-end](#front-end)
+    - [Typography](#typography)
+    - [Color Rule](#color-rule)
+    - [UX](#ux)
+    - [Usage of specific font in Nuxt](#usage-of-specific-font-in-nuxt)
+    - [Layouts](#layouts)
+      - [Grid](#grid)
+      - [Flexbox](#flexbox)
+      - [Full-page / view-port scroll](#full-page--view-port-scroll)
+  - [Vue](#vue)
+  - [About Vue](#about-vue)
+    - [Components](#components)
   - [Text Interpolation](#text-interpolation)
-  - [Reactivity](#reactivity)
-    - [Reactive](#reactive)
-    - [Ref](#ref)
-    - [Ref vs Reactive pitfalls](#ref-vs-reactive-pitfalls)
-  - [Computed Properties](#computed-properties)
-  - [Conditional Rendering](#conditional-rendering)
-    - [List Rendering](#list-rendering)
-  - [Propeties](#propeties)
-    - [Static props](#static-props)
-    - [Dynamic props](#dynamic-props)
-  - [Slots](#slots)
-  - [Fallback Defaults](#fallback-defaults)
-  - [Named Slots](#named-slots)
-  - [Provide \& Inject](#provide--inject)
-    - [Provide](#provide)
-    - [Inject](#inject)
-    - [Provide and Inject Example](#provide-and-inject-example)
-  - [Watchers](#watchers)
-  - [Template Refs](#template-refs)
-  - [Fetching Data](#fetching-data)
-  - [Events](#events)
-  - [Lifecycle Hooks](#lifecycle-hooks)
-    - [Common Lifecycle Hooks](#common-lifecycle-hooks)
-  - [Vue Router](#vue-router)
-    - [Basic Usage](#basic-usage)
-  - [Layouts](#layouts)
-    - [Grid](#grid)
-    - [Flexbox](#flexbox)
-    - [Full-page / view-port scroll](#full-page--view-port-scroll)
-  - [Note](#note)
+    - [Reactivity](#reactivity)
+      - [Reactive](#reactive)
+      - [Ref](#ref)
+      - [Ref vs Reactive pitfalls](#ref-vs-reactive-pitfalls)
+    - [Computed Properties](#computed-properties)
+    - [Conditional Rendering](#conditional-rendering)
+      - [List Rendering](#list-rendering)
+    - [Propeties](#propeties)
+      - [Static props](#static-props)
+      - [Dynamic props](#dynamic-props)
+    - [Slots](#slots)
+    - [Fallback Defaults](#fallback-defaults)
+    - [Named Slots](#named-slots)
+    - [Provide \& Inject](#provide--inject)
+      - [Provide](#provide)
+      - [Inject](#inject)
+      - [Provide and Inject Example](#provide-and-inject-example)
+    - [Watchers](#watchers)
+    - [Template Refs](#template-refs)
+    - [Fetching Data](#fetching-data)
+    - [Events](#events)
+    - [Lifecycle Hooks](#lifecycle-hooks)
+      - [Common Lifecycle Hooks](#common-lifecycle-hooks)
+    - [Vue Router](#vue-router)
+      - [Basic Usage](#basic-usage)
+  - [Nuxt](#nuxt)
+    - [Pages, Routing, Layouts, Content, and Server in Nuxt](#pages-routing-layouts-content-and-server-in-nuxt)
+      - [Pages and Routing](#pages-and-routing)
+      - [Layouts in Nuxt](#layouts-in-nuxt)
+      - [Content in Nuxt](#content-in-nuxt)
+      - [Server in Nuxt](#server-in-nuxt)
+  - [Sources](#sources)
 
-## Components
+## About
+
+This is my personal notebook about front-end development and additional notes about Vue.js.
+
+Last time I wrote front-end code was some time near 2005, while the most stack was Php with a mix of Javascript.
+
+## Front-end
+
+### Typography
+
+Few gold rules to follow when it comes to typography:
+
+- Use display fonts for a big text
+- Use the golden ratio for font sizes (the 1.618)
+- Use a base font size of 16px, then multiply it by the golden ratio for the next sizes:
+  - 16px (base)
+  - 26px (1.618 \* 16)
+  - 42px (1.618 \* 26)
+
+### Color Rule
+
+- Use a color palette with 3-5 colors
+- Use a primary color for the main elements
+- Use a secondary color for the secondary elements
+- Use an accent color for the highlights
+
+One of the most popular is 60-30-10 rule:
+
+- 60% primary color
+- 30% secondary color
+- 10% accent color
+
+### UX
+
+- Use a consistent layout and design across the application
+- Use whitespace to separate elements and create a clean design
+- Use a grid system to align elements and create a responsive design
+- Use a consistent font size and line height for readability
+- Remember that people skim content, so use headings, subheadings, and bullet points to make it easy to scan
+
+### Usage of specific font in Nuxt
+
+To use a specific font in Nuxt, you can install the `@nuxt/fonts` module.
+
+```bash
+npm install @nuxt/fonts
+```
+
+Then configure `nuxt.config.ts`:
+
+```typescript
+export default defineNuxtConfig({
+  modules: ['@nuxt/fonts'],
+  fonts: {
+    families: {
+      inter: true, // or specify weights/styles
+      roboto: {
+        wght: [400, 700],
+        ital: [400],
+      },
+    },
+  },
+})
+```
+
+Then specify the font in your CSS:
+
+```css
+body {
+  font-family: 'Inter', sans-serif;
+}
+```
+
+### Layouts
+
+#### Grid
+
+Vue.js allows you to create complex layouts using components and CSS frameworks like Tailwind CSS. You can use utility classes to style your components and create responsive designs.
+
+The easiest way for more backend oriented `Software Writers` or `Developers` is to use the `grid` at first and then use the `flex` for more complex layouts.
+
+The `grid` is a powerful layout system that allows you to create complex layouts with rows and columns. You can define the number of columns, their sizes, and how they should behave on different screen sizes.
+
+The core concepts of the `grid` is to think about it as a container that can be always divided by 2. In other words: if you want to create a layout of 3 columns, small, medium, and large, you can use the `grid-cols-12` class and then use the `col-span` classes to define how many columns each element should span. The same applies to rows. For example:
+
+- `col-span-2` for a small column
+- `col-span-4` for a medium column
+- `col-span-6` for a large column
+
+Another hot trick is to use `sm:grid` to define the grid for small screens, rest will be handled by the `grid` classes automatically.
+
+For example:
+
+```html
+<div class="grid sm:grid-cols-2 m-4 gap-4">
+  <div class="min-h-[100px] rounded-lg bg-pink-300"></div>
+  <div class="min-h-[100px] rounded-lg bg-blue-300"></div>
+</div>
+<div class="grid sm:grid-cols-12 m-4 gap-4">
+  <div class="min-h-[100px] rounded-lg bg-violet-200 col-span-2"></div>
+  <div class="min-h-[100px] rounded-lg bg-blue-400 col-span-10"></div>
+</div>
+<div class="grid sm:grid-cols-12 m-4 gap-4">
+  <div class="min-h-[100px] rounded-lg bg-red-200 col-span-8">
+    <div class="min-h-[50px] bg-amber-200"></div>
+    <div class="min-h-[50px] bg-orange-300"></div>
+  </div>
+  <div class="min-h-[100px] rounded-lg bg-green-200 col-span-4"></div>
+</div>
+<div class="grid sm:grid-cols-12 m-4 gap-4">
+  <div class="min-h-[200px] col-span-4 bg-red-200">
+    <div class="min-h-[100px] bg-amber-200"></div>
+    <div class="min-h-[100px] bg-orange-300"></div>
+    <div class="min-h-[100px] bg-yellow-400"></div>
+  </div>
+  <div class="min-h-[200px] col-span-8 bg-green-200">
+    <div class="grid grid-cols-3 h-full">
+      <div class="bg-blue-200"></div>
+      <div class="bg-purple-300"></div>
+      <div class="bg-pink-400"></div>
+    </div>
+  </div>
+</div>
+```
+
+#### Flexbox
+
+Flexbox is another powerful layout system that allows you to create flexible and responsive layouts. It is based on the concept of a flex container and flex items. The flex container is the parent element, and the flex items are the child elements.
+
+The grid code below:
+
+```html
+<div class="grid sm:grid-cols-12 m-4 gap-4">
+  <div class="min-h-[100px] rounded-lg bg-violet-200 col-span-2"></div>
+  <div class="min-h-[100px] rounded-lg bg-blue-400 col-span-10"></div>
+</div>
+```
+
+Can be easily converted to a flexbox layout like this:
+
+```html
+<div class="flex m-4 gap-4">
+  <div class="min-h-[100px] rounded-lg bg-pink-300 flex-[2]"></div>
+  <div class="min-h-[100px] rounded-lg bg-blue-300 flex-[10]"></div>
+</div>
+```
+
+Or this:
+
+```html
+<div class="flex m-4 gap-4">
+  <div class="min-h-[100px] rounded-lg bg-slate-400 w-1/6"></div>
+  <div class="min-h-[100px] rounded-lg bg-blue-300 w-5/6"></div>
+</div>
+```
+
+#### Full-page / view-port scroll
+
+In order to get for example 3 full-page sections that can be scrolled to, you can use the `snap` classes from Tailwind CSS. The `snap-y` class allows you to create a vertical snap scrolling effect, while the `snap-mandatory` class ensures that the scroll will snap to the nearest section.:
+
+```html
+<div class="h-screen snap-y snap-mandatory overflow-y-scroll scroll-smooth">
+  <div class="h-screen flex items-center justify-center bg-base-200 snap-start">
+    <br />
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam reprehenderit dolorum
+      architecto atque consectetur quod porro maxime tenetur esse ipsum quisquam, maiores nobis
+      temporibus sint modi ut inventore perferendis a quis deleniti quam eius rerum. Ullam,
+      necessitatibus.
+    </p>
+  </div>
+  <div class="h-screen flex items-center justify-center bg-slate-300 snap-start">
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam reprehenderit dolorum
+      architecto atque consectetur quod porro maxime tenetur esse ipsum quisquam, maiores nobis
+      temporibus sint modi ut inventore perferendis a quis deleniti quam eius rerum. Ullam,
+      necessitatibus.
+    </p>
+  </div>
+  <div class="h-screen flex items-center justify-center bg-base-400 snap-start">
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam reprehenderit dolorum
+      architecto atque consectetur quod porro maxime tenetur esse ipsum quisquam, maiores nobis
+      temporibus sint modi ut inventore perferendis a quis deleniti quam eius rerum. Ullam,
+      necessitatibus.
+    </p>
+  </div>
+</div>
+```
+
+This part was about re-learning me the core laws of layout design.
+
+## Vue
+
+## About Vue
+
+Vue.js is a progressive JavaScript framework for building user interfaces. It is designed to be incrementally adoptable, meaning you can use it for small parts of your application or as a full-fledged framework for building complex applications.
+
+### Components
 
 A component is a reusable piece of code that encapsulates its own structure, style, and behavior. Components can be nested, reused, and managed independently.
 
@@ -96,13 +311,13 @@ const age = 18
 </template>
 ````
 
-## Reactivity
+### Reactivity
 
 Reactivity in Vue allows the UI to automatically update when the underlying data changes. Vue uses a reactive system that tracks dependencies and updates the DOM efficiently.
 
 We have to use `ref` or `reactive` to create reactive data. The `ref` is used for primitive values, while `reactive` is used for objects and arrays.
 
-### Reactive
+#### Reactive
 
 A reactive object is an object that Vue can track for changes. When a property of a reactive object changes, Vue automatically updates the DOM to reflect that change.
 
@@ -134,7 +349,7 @@ const addSkill = () => {
 
 The `reactive` can't store primitive values (e.g., numbers, strings, booleans), so we have to use `ref` for that.
 
-### Ref
+#### Ref
 
 A `ref` is a reactive reference to a primitive value. When the value of a `ref` changes, Vue automatically updates the DOM to reflect that change.
 
@@ -156,7 +371,7 @@ const age = ref(18)
 
 It is widely used for single values like numbers, strings, and booleans. It can also be used to create reactive references to DOM elements.
 
-### Ref vs Reactive pitfalls
+#### Ref vs Reactive pitfalls
 
 In Vue 3, both `ref()` and `reactive()` are used for reactivity, but they have different **use** cases:
 
@@ -173,7 +388,7 @@ In short:
 - ref() is more predictable when passing objects/arrays as props or emitting them in events.
 - ref() is compatible with Vue’s Composition API patterns and works well with TypeScript.
 
-## Computed Properties
+### Computed Properties
 
 Computed properties are a powerful feature in Vue that allow you to define properties that depend on other reactive properties. They are automatically updated when their dependencies change.
 
@@ -198,7 +413,7 @@ const fullName = computed(() => {
 </template>
 ```
 
-## Conditional Rendering
+### Conditional Rendering
 
 Conditional rendering allows you to display or hide elements based on certain conditions. You can use the `v-if`, `v-else-if`, and `v-else` directives to control the rendering of elements.
 
@@ -222,7 +437,7 @@ const isLoggedIn = ref(false)
 </template>
 ```
 
-### List Rendering
+#### List Rendering
 
 List rendering allows you to render a list of items using the `v-for` directive. You can iterate over arrays or objects and generate a list of elements.
 
@@ -270,9 +485,9 @@ So when using big volumes of data, we should always use the `key` attribute:
 </table>
 ```
 
-## Propeties
+### Propeties
 
-### Static props
+#### Static props
 
 Propeties aka `props` are a way to pass data from a parent component to a child component. They allow you to make components reusable and configurable.
 
@@ -289,7 +504,7 @@ const props = defineProps(['name'])
 </template>
 ```
 
-### Dynamic props
+#### Dynamic props
 
 Dynamic props allow you to pass data to a component using the `v-bind` directive or the shorthand `:`. This is useful when you want to bind a variable or an expression to a prop.
 
@@ -357,7 +572,7 @@ const props = defineProps(['sales', 'revenue', 'profit'])
 
 **Please note** that the `props` are immutable by default, meaning you cannot change their values directly within the child component. If you need to modify the data, you should emit an event to the parent component to handle the change.
 
-## Slots
+### Slots
 
 Slots are a way to create reusable components with customizable content. They allow you to define placeholders in a component's template that can be filled with content from the parent component.
 
@@ -397,7 +612,7 @@ import SlotComponent from './components/SlotComponent.vue'
 <style></style>
 ```
 
-## Fallback Defaults
+### Fallback Defaults
 
 You can also provide fallback content for slots. If no content is passed to the slot, the fallback content will be displayed.
 
@@ -435,7 +650,7 @@ import FallbackDefaultComponent from './components/FallbackDefaultComponent.vue'
 <style></style>
 ```
 
-## Named Slots
+### Named Slots
 
 Named slots allow you to define multiple slots within a single component, each with a unique name. This is useful when you want to provide different content for different parts of the component.
 
@@ -475,19 +690,19 @@ import NamedSlotComponent from './components/NamedSlotComponent.vue'
 <style></style>
 ```
 
-## Provide & Inject
+### Provide & Inject
 
 Provide and inject are used to pass data from a parent component to deeply nested child components without having to pass props through every level of the component hierarchy.
 
-### Provide
+#### Provide
 
 The `provide` option allows a parent component to provide data that can be injected by its descendants.
 
-### Inject
+#### Inject
 
 The `inject` option allows a child component to access data provided by its ancestor components.
 
-### Provide and Inject Example
+#### Provide and Inject Example
 
 `ProvideAndInjectComponent.vue`:
 
@@ -559,7 +774,7 @@ const manufacturer = inject('manufacturer')
 <style></style>
 ```
 
-## Watchers
+### Watchers
 
 Watchers are used to perform side effects in response to changes in reactive data. They allow you to execute code when a specific piece of data changes.
 
@@ -601,7 +816,7 @@ watch(inputValue, (newValue, oldValue) => {
 <style></style>
 ```
 
-## Template Refs
+### Template Refs
 
 This is a way to create a reference to a DOM element or a component instance in the template. It allows you to access the element or component directly in the script.
 
@@ -633,7 +848,7 @@ onMounted(() => {
 <style></style>
 ```
 
-## Fetching Data
+### Fetching Data
 
 Fetching data in Vue can be done using the `fetch` API or any other HTTP client like Axios. You can use the `onMounted` lifecycle hook to fetch data when the component is mounted:
 
@@ -678,7 +893,7 @@ const fetchData = () => {
 <style></style>
 ```
 
-## Events
+### Events
 
 Events in Vue are used to handle user interactions and trigger actions in the component. You can use the `v-on` directive or the shorthand `@` to listen for events.
 
@@ -727,11 +942,11 @@ function handleCustomEvent(message) {
 
 Once clicked, the button in the child component will emit a custom event named `customEvent`, which the parent component listens for. When the event is triggered, the parent component's `handleCustomEvent` method is called, displaying an alert with the message passed from the child.
 
-## Lifecycle Hooks
+### Lifecycle Hooks
 
 Lifecycle Hooks in Vue are special functions that allow you to run code at specific points in a component's lifecycle. They are useful for performing setup tasks, cleaning up resources, or reacting to changes in the component.
 
-### Common Lifecycle Hooks
+#### Common Lifecycle Hooks
 
 - `onMounted`: Called after the component is mounted to the DOM. This is a good place to perform initial data fetching or setup.
 - `onUpdated`: Called after the component's reactive data has changed and the DOM has been updated. This is useful for reacting to changes in the component's data.
@@ -743,13 +958,13 @@ Lifecycle Hooks in Vue are special functions that allow you to run code at speci
 - `onActivated`: Called when a component is activated in a keep-alive component. This is useful for performing tasks when a component is reactivated.
 - `onDeactivated`: Called when a component is deactivated in a keep-alive component. This is useful for performing tasks when a component is deactivated.
 
-## Vue Router
+### Vue Router
 
 Vue Router is the official router for Vue.js. It allows you to create single-page applications (SPAs) with navigation between different views or components.
 
 It provides a way to define routes, navigate between them, and manage the state of the application.
 
-### Basic Usage
+#### Basic Usage
 
 To use Vue Router, you need to install it and configure it in your Vue application. You can define routes and map them to components.
 
@@ -775,129 +990,154 @@ const router = createRouter({
 export default router
 ```
 
-## Layouts
+## Nuxt
 
-### Grid
+Nuxt.js is a framework built on top of Vue.js that provides a powerful set of features for building server-rendered applications, static sites, and more. It simplifies the development process by providing a structured way to build Vue applications with features like routing, server-side rendering, and static site generation.
 
-Vue.js allows you to create complex layouts using components and CSS frameworks like Tailwind CSS. You can use utility classes to style your components and create responsive designs.
+### Pages, Routing, Layouts, Content, and Server in Nuxt
 
-The easiest way for more backend oriented `Software Writers` or `Developers` is to use the `grid` at first and then use the `flex` for more complex layouts.
+#### Pages and Routing
 
-The `grid` is a powerful layout system that allows you to create complex layouts with rows and columns. You can define the number of columns, their sizes, and how they should behave on different screen sizes.
+In `Nuxt 4`, the `pages` directory has been moved to the `/app/pages` directory. Nuxt automatically generates routes based on the file structure in this directory. Each `.vue` file corresponds to a route in your application.
 
-The core concepts of the `grid` is to think about it as a container that can be always divided by 2. In other words: if you want to create a layout of 3 columns, small, medium, and large, you can use the `grid-cols-12` class and then use the `col-span` classes to define how many columns each element should span. The same applies to rows. For example:
+Example:
 
-- `col-span-2` for a small column
-- `col-span-4` for a medium column
-- `col-span-6` for a large column
-
-Another hot trick is to use `sm:grid` to define the grid for small screens, rest will be handled by the `grid` classes automatically.
-
-For example:
-
-```html
-<div class="grid sm:grid-cols-2 m-4 gap-4">
-  <div class="min-h-[100px] rounded-lg bg-pink-300"></div>
-  <div class="min-h-[100px] rounded-lg bg-blue-300"></div>
-</div>
-<div class="grid sm:grid-cols-12 m-4 gap-4">
-  <div class="min-h-[100px] rounded-lg bg-violet-200 col-span-2"></div>
-  <div class="min-h-[100px] rounded-lg bg-blue-400 col-span-10"></div>
-</div>
-<div class="grid sm:grid-cols-12 m-4 gap-4">
-  <div class="min-h-[100px] rounded-lg bg-red-200 col-span-8">
-    <div class="min-h-[50px] bg-amber-200"></div>
-    <div class="min-h-[50px] bg-orange-300"></div>
-  </div>
-  <div class="min-h-[100px] rounded-lg bg-green-200 col-span-4"></div>
-</div>
-<div class="grid sm:grid-cols-12 m-4 gap-4">
-  <div class="min-h-[200px] col-span-4 bg-red-200">
-    <div class="min-h-[100px] bg-amber-200"></div>
-    <div class="min-h-[100px] bg-orange-300"></div>
-    <div class="min-h-[100px] bg-yellow-400"></div>
-  </div>
-  <div class="min-h-[200px] col-span-8 bg-green-200">
-    <div class="grid grid-cols-3 h-full">
-      <div class="bg-blue-200"></div>
-      <div class="bg-purple-300"></div>
-      <div class="bg-pink-400"></div>
-    </div>
-  </div>
-</div>
+```shell
+app/
+├── pages/
+│   ├── index.vue       // Route: /
+│   ├── about.vue       // Route: /about
+│   ├── blog/
+│   │   ├── index.vue   // Route: /blog
+│   │   ├── [id].vue    // Route: /blog/:id (dynamic route)
 ```
 
-### Flexbox
+Dynamic routes can be created using square brackets `[param]`. For example, `[id].vue` will match `/blog/123` and make `id` available as a parameter.
 
-Flexbox is another powerful layout system that allows you to create flexible and responsive layouts. It is based on the concept of a flex container and flex items. The flex container is the parent element, and the flex items are the child elements.
+#### Layouts in Nuxt
 
-The grid code below:
+Layouts in Nuxt 4 are now located in the `/app/layouts` directory. They allow you to define a common structure for your pages, such as headers, footers, or sidebars. You can create custom layouts and use them in your pages.
 
-```html
-<div class="grid sm:grid-cols-12 m-4 gap-4">
-  <div class="min-h-[100px] rounded-lg bg-violet-200 col-span-2"></div>
-  <div class="min-h-[100px] rounded-lg bg-blue-400 col-span-10"></div>
-</div>
+Example:
+
+```shell
+app/
+├── layouts/
+│   ├── default.vue     // Default layout
+│   ├── admin.vue       // Admin layout
 ```
 
-Can be easily converted to a flexbox layout like this:
+To use a layout in a page, specify it in the `layout` property:
 
-```html
-<div class="flex m-4 gap-4">
-  <div class="min-h-[100px] rounded-lg bg-pink-300 flex-[2]"></div>
-  <div class="min-h-[100px] rounded-lg bg-blue-300 flex-[10]"></div>
-</div>
+```vue
+<script>
+export default {
+  layout: 'admin',
+}
+</script>
 ```
 
-Or this:
+#### Content in Nuxt
 
-```html
-<div class="flex m-4 gap-4">
-  <div class="min-h-[100px] rounded-lg bg-slate-400 w-1/6"></div>
-  <div class="min-h-[100px] rounded-lg bg-blue-300 w-5/6"></div>
-</div>
+Nuxt provides the `@nuxt/content` module for managing content in Markdown, JSON, or YAML files. You can use it to create blogs, documentation, or any other content-driven application.
+
+Install the module:
+
+```bash
+npm install @nuxt/content
 ```
 
-### Full-page / view-port scroll
+Add content files in the `/content` directory:
 
-In order to get for example 3 full-page sections that can be scrolled to, you can use the `snap` classes from Tailwind CSS. The `snap-y` class allows you to create a vertical snap scrolling effect, while the `snap-mandatory` class ensures that the scroll will snap to the nearest section.:
+```shell
+content/
+├── blog/
+│   ├── post1.md
+│   ├── post2.md
+```
 
-```html
-<div class="h-screen snap-y snap-mandatory overflow-y-scroll scroll-smooth">
-  <div class="h-screen flex items-center justify-center bg-base-200 snap-start">
-    <br />
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam reprehenderit dolorum
-      architecto atque consectetur quod porro maxime tenetur esse ipsum quisquam, maiores nobis
-      temporibus sint modi ut inventore perferendis a quis deleniti quam eius rerum. Ullam,
-      necessitatibus.
-    </p>
+Fetch content in your components or pages using the `useContent` composable:
+
+```vue
+<script setup>
+import { useContent } from '@nuxt/content'
+
+const { data } = await useContent('blog').fetch()
+</script>
+
+<template>
+  <div>
+    <ul>
+      <li v-for="post in data" :key="post.slug">{{ post.title }}</li>
+    </ul>
   </div>
-  <div class="h-screen flex items-center justify-center bg-slate-300 snap-start">
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam reprehenderit dolorum
-      architecto atque consectetur quod porro maxime tenetur esse ipsum quisquam, maiores nobis
-      temporibus sint modi ut inventore perferendis a quis deleniti quam eius rerum. Ullam,
-      necessitatibus.
-    </p>
-  </div>
-  <div class="h-screen flex items-center justify-center bg-base-400 snap-start">
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam reprehenderit dolorum
-      architecto atque consectetur quod porro maxime tenetur esse ipsum quisquam, maiores nobis
-      temporibus sint modi ut inventore perferendis a quis deleniti quam eius rerum. Ullam,
-      necessitatibus.
-    </p>
-  </div>
-</div>
+</template>
 ```
 
-This part was about re-learning me the core laws of layout design.
+#### Server in Nuxt
 
-## Note
+Nuxt provides a server engine for building server-side rendered (SSR) applications. You can define server-side logic in the `/server/api` directory for custom APIs.
 
-Sources:
+Example:
+
+```shell
+server/
+├── api/
+│   ├── hello.js
+```
+
+`hello.js`:
+
+```javascript
+export default defineEventHandler(() => {
+  return { message: 'Hello from the server!' }
+})
+```
+
+Access the API in your application:
+
+```javascript
+const response = await fetch('/api/hello')
+const data = await response.json()
+console.log(data.message) // Output: Hello from the server!
+```
+
+Nuxt also supports middleware for handling requests and responses. Middleware can be defined in the `/server/middleware` directory.
+
+Example:
+
+```shell
+server/
+├── middleware/
+│   ├── auth.js
+```
+
+`auth.js`:
+
+```javascript
+export default defineEventHandler((event) => {
+  const token = event.req.headers.authorization
+  if (!token) {
+    throw createError({ statusCode: 401, statusMessage: 'Unauthorized' })
+  }
+})
+```
+
+Use middleware in your API routes:
+
+```javascript
+export default defineEventHandler((event) => {
+  useMiddleware(event, 'auth')
+  return { message: 'Authenticated!' }
+})
+```
+
+Nuxt's server capabilities make it easy to build full-stack applications with integrated APIs and SSR.
+
+## Sources
 
 - [Vue.js Documentation](https://vuejs.org/guide/introduction.html)
+- [Nuxt.js Documentation](https://nuxt.com/docs/4.x/getting-started/introduction)
 - [Vue.js Complete Course ( 2025 )](https://youtu.be/ymXJlPeM-qI?si=1jN6uMnxS2Ttyfj0)
 - [Build any layout with Tailwind | Crash Course](https://youtu.be/rbSPe1tJowY?si=mKFUaJmQHuLj5Ho_)
+- [50 Web Design Tips & Tricks to Level Up Instantly](https://www.youtube.com/watch?v=rRFD6tENX2U)
